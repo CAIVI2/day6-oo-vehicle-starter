@@ -111,4 +111,20 @@ public class StandardParkingBoyTest {
         assertTrue(lot1.fetch(ticket) != null);
         assertTrue(lot2.fetch(ticket) == null);
     }
+
+    @Test
+    void should_park_to_second_parking_lot_when_park_the_car_given_a_standard_parking_boy_who_manage_two_parking_lots_first_is_full_and_second_with_available_position() {
+        Car car1 = new Car("C1");
+        Car car2 = new Car("C2");
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        StandardParkingBoy boy = new StandardParkingBoy(Arrays.asList(lot1, lot2));
+
+        boy.park(car1);
+        Ticket ticket2 = boy.park(car2);
+
+        assertNotNull(ticket2);
+        assertTrue(lot1.fetch(ticket2) == null);
+        assertTrue(lot2.fetch(ticket2) != null);
+    }
 }
