@@ -16,8 +16,7 @@ public class ParkingLot {
             System.out.println("No available position.");
             return null;
         }
-        ParkingLot parkingLot = new ParkingLot(10);
-        Ticket ticket = new Ticket(1, car, parkingLot);
+        Ticket ticket = new Ticket(1, car, this);
         ticketCars.put(ticket, car);
         return ticket;
     }
