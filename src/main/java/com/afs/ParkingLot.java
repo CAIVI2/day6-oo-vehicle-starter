@@ -13,6 +13,7 @@ public class ParkingLot {
 
     public Ticket park(Car car) {
         if (ticketCars.size() >= capacity) {
+            System.out.println("No available position.");
             return null;
         }
         ParkingLot parkingLot = new ParkingLot(10);
