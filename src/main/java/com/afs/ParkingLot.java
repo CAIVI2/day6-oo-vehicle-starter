@@ -2,6 +2,7 @@ package com.afs;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class ParkingLot {
     private final Integer capacity;
@@ -16,9 +17,15 @@ public class ParkingLot {
             System.out.println("No available position.");
             return null;
         }
-        Ticket ticket = new Ticket(1, car, this);
-        ticketCars.put(ticket, car);
-        return ticket;
+        return IntStream.rangeClosed(1, capacity).boxed()
+                .filter(position -> ticketCars.keySet().stream().noneMatch(ticket -> ticket.position() == position))
+                .findFirst()
+                .map(position -> {
+                    Ticket ticket = new Ticket(position, car, this);
+                    ticketCars.put(ticket, car);
+                    return ticket;
+                })
+                .orElse(null);
     }
 
     public Car fetch(Ticket ticket) {
