@@ -146,7 +146,7 @@ public class StandardParkingBoyTest {
     }
 
     @Test
-    void should_return_nothing_with_error_message_when_fetch_th_car_given_a_standard_parking_boy_who_manage_two_parking_lots_and_an_unrecognized_ticket() {
+    void should_return_nothing_with_error_message_when_fetch_the_car_given_a_standard_parking_boy_who_manage_two_parking_lots_and_an_unrecognized_ticket() {
         Car car = new Car("C0");
         Car car2 = new Car("C2");
         ParkingLot lot1 = new ParkingLot(1);
@@ -158,6 +158,22 @@ public class StandardParkingBoyTest {
         Car fetchedCar = boy.fetch(wrongTicket);
 
         assertNull(fetchedCar);
+        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+    }
+
+    @Test
+    void should_return_nothing_with_error_message_when_fetch_the_car_given_a_standard_parking_boy_who_manage_two_parking_lots_and_an_used_ticket() {
+        Car car = new Car("C0");
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        StandardParkingBoy boy = new StandardParkingBoy(Arrays.asList(lot1, lot2));
+
+        Ticket ticket = boy.park(car);
+        Car fetchedCar1 = boy.fetch(ticket);
+        Car fetchedCar2 = boy.fetch(ticket);
+
+        assertNotNull(fetchedCar1);
+        assertNull(fetchedCar2);
         assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
     }
 }
