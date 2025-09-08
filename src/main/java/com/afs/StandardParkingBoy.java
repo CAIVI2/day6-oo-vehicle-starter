@@ -23,12 +23,10 @@ public class StandardParkingBoy {
     }
 
     public Car fetch(Ticket ticket) {
-        for (ParkingLot parkingLot : parkingLots) {
-            Car car = parkingLot.fetch(ticket);
-            if (car != null) {
-                return car;
-            }
-        }
-        return null;
+        return parkingLots.stream()
+                .map(parkingLot -> parkingLot.fetch(ticket))
+                .filter(car -> car != null)
+                .findFirst()
+                .orElse(null);
     }
 }
