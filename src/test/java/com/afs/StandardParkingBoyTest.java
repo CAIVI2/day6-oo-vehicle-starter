@@ -127,4 +127,21 @@ public class StandardParkingBoyTest {
         assertTrue(lot1.fetch(ticket2) == null);
         assertTrue(lot2.fetch(ticket2) != null);
     }
+
+    @Test
+    void should_return_the_right_car_with_each_ticket_when_fetch_the_car_twice_given_a_standard_parking_boy_who_manage_two_parking_lots_both_with_a_parked_car_and_two_parking_ticket() {
+        Car car1 = new Car("C1");
+        Car car2 = new Car("C2");
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        StandardParkingBoy boy = new StandardParkingBoy(Arrays.asList(lot1, lot2));
+
+        Ticket ticket1 = boy.park(car1);
+        Ticket ticket2 = boy.park(car2);
+        Car fetchedCar1 = boy.fetch(ticket1);
+        Car fetchedCar2 = boy.fetch(ticket2);
+
+        assertEquals(car1, fetchedCar1);
+        assertEquals(car2, fetchedCar2);
+    }
 }
