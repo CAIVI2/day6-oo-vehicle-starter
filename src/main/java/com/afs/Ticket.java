@@ -1,8 +1,4 @@
 package com.afs;
 
-public class Ticket {
-    public Ticket(int i, Car car2, ParkingLot parkingLot) {
-
-    }
-}
+public record Ticket(int position, Car car, ParkingLot parkingLot) {}
 
