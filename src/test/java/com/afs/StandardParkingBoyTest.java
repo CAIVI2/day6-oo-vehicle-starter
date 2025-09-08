@@ -1,9 +1,18 @@
 package com.afs;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StandardParkingBoyTest {
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outputStream));
+    }
 
     @Test
     void should_return_a_parking_ticket_when_park_the_car_given_a_parking_lot_and_a_standard_parking_boy_and_a_car() {
@@ -44,4 +53,18 @@ public class StandardParkingBoyTest {
         assertEquals(car2, fetchedCar2);
     }
 
+    @Test
+    void should_return_nothing_with_error_message_when_fetch_the_car_given_a_parking_lot_and_a_standard_parking_boy_and_a_wrong_parking_ticket() {
+        Car car = new Car("C0");
+        Car car2 = new Car("C2");
+        ParkingLot parkingLot = new ParkingLot(10);
+        StandardParkingBoy boy = new StandardParkingBoy(parkingLot);
+        Ticket wrongTicket = new Ticket(1, car2, parkingLot);
+
+        boy.park(car);
+        Car fetchedCar = boy.fetch(wrongTicket);
+
+        assertNull(fetchedCar);
+        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+    }
 }
