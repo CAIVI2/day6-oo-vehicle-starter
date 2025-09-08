@@ -36,4 +36,3 @@ public class ParkingLot {
         return ticketCars.remove(ticket);
     }
 }
-
