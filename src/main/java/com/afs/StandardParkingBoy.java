@@ -15,13 +15,11 @@ public class StandardParkingBoy {
     }
 
     public Ticket park(Car car) {
-        for (ParkingLot parkingLot : parkingLots) {
-            Ticket ticket = parkingLot.park(car);
-            if (ticket != null) {
-                return ticket;
-            }
-        }
-        return null;
+        return parkingLots.stream()
+                .map(parkingLot -> parkingLot.park(car))
+                .filter(ticket -> ticket != null)
+                .findFirst()
+                .orElse(null);
     }
 
     public Car fetch(Ticket ticket) {
