@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StandardParkingBoyTest {
@@ -96,5 +97,18 @@ public class StandardParkingBoyTest {
         assertNotNull(ticket1);
         assertNull(ticket2);
         assertTrue(outputStream.toString().contains("No available position."));
+    }
+
+    @Test
+    void should_park_to_first_parking_lot_when_park_the_car_given_a_standard_parking_boy_who_manage_two_parking_lots_both_with_available_position_and_a_car() {
+        Car car = new Car("C0");
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        StandardParkingBoy boy = new StandardParkingBoy(Arrays.asList(lot1, lot2));
+
+        Ticket ticket = boy.park(car);
+        assertNotNull(ticket);
+        assertTrue(lot1.fetch(ticket) != null);
+        assertTrue(lot2.fetch(ticket) == null);
     }
 }
