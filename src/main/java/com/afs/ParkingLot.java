@@ -11,7 +11,8 @@ public class ParkingLot {
     }
 
     public Ticket park(Car car) {
-        Ticket ticket = new Ticket();
+        ParkingLot parkingLot = new ParkingLot(10);
+        Ticket ticket = new Ticket(1, car, parkingLot);
         ticketCars.put(ticket, car);
         return ticket;
     }
