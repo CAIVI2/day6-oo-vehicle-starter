@@ -144,4 +144,20 @@ public class StandardParkingBoyTest {
         assertEquals(car1, fetchedCar1);
         assertEquals(car2, fetchedCar2);
     }
+
+    @Test
+    void should_return_nothing_with_error_message_when_fetch_th_car_given_a_standard_parking_boy_who_manage_two_parking_lots_and_an_unrecognized_ticket() {
+        Car car = new Car("C0");
+        Car car2 = new Car("C2");
+        ParkingLot lot1 = new ParkingLot(1);
+        ParkingLot lot2 = new ParkingLot(1);
+        StandardParkingBoy boy = new StandardParkingBoy(Arrays.asList(lot1, lot2));
+        Ticket wrongTicket = new Ticket(1, car2, lot2);
+
+        boy.park(car);
+        Car fetchedCar = boy.fetch(wrongTicket);
+
+        assertNull(fetchedCar);
+        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+    }
 }
