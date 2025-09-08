@@ -1,11 +1,19 @@
 package com.afs;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParkingLotTest {
+    private final static ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outputStream));
+    }
+
     @Test
     void should_return_a_parking_ticket_when_park_the_car_given_a_parking_lot_and_a_car() {
         Car car = new Car("C0");
@@ -79,6 +87,20 @@ public class ParkingLotTest {
 
         assertNotNull(ticket1);
         assertNull(ticket2);
+    }
+
+    @Test
+    public void should_return_nothing_with_error_message_when_fetch_the_car_given_a_parking_lot_and_an_unrecognized_ticket() {
+        Car car = new Car("C0");
+        Car car2 = new Car("C2");
+        ParkingLot parkingLot = new ParkingLot(10);
+        Ticket unrecognizedTicket = new Ticket(1, car2, parkingLot);
+
+        Ticket ticket = parkingLot.park(car);
+        Car fetchedCar = parkingLot.fetch(unrecognizedTicket);
+
+        assertNull(fetchedCar);
+        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
     }
 }
 
