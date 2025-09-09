@@ -19,7 +19,7 @@ public class StandardParkingBoy {
                 .map(parkingLot -> parkingLot.park(car))
                 .filter(ticket -> ticket != null)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("No available position."));
     }
 
     public Car fetch(Ticket ticket) {
@@ -27,6 +27,6 @@ public class StandardParkingBoy {
                 .map(parkingLot -> parkingLot.fetch(ticket))
                 .filter(car -> car != null)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Unrecognized parking ticket."));
     }
 }

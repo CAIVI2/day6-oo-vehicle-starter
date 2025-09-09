@@ -63,10 +63,16 @@ public class StandardParkingBoyTest {
         Ticket wrongTicket = new Ticket(1, car2, parkingLot);
 
         boy.park(car);
-        Car fetchedCar = boy.fetch(wrongTicket);
+        Car fetchedCar = null;
+        String errorMessage = null;
+        try {
+            fetchedCar = boy.fetch(wrongTicket);
+        } catch (RuntimeException e) {
+            errorMessage = e.getMessage();
+        }
 
         assertNull(fetchedCar);
-        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+        assertEquals("Unrecognized parking ticket.", errorMessage);
     }
 
     @Test
@@ -76,12 +82,25 @@ public class StandardParkingBoyTest {
         StandardParkingBoy boy = new StandardParkingBoy(parkingLot);
 
         Ticket ticket = boy.park(car);
-        Car fetchedCar1 = boy.fetch(ticket);
-        Car fetchedCar2 = boy.fetch(ticket);
+        Car fetchedCar1 = null;
+        String errorMessage1 = null;
+        try {
+            fetchedCar1 = boy.fetch(ticket);
+        } catch (RuntimeException e) {
+            errorMessage1 = e.getMessage();
+        }
+        Car fetchedCar2 = null;
+        String errorMessage2 = null;
+        try {
+            fetchedCar2 = boy.fetch(ticket);
+        } catch (RuntimeException e) {
+            errorMessage2 = e.getMessage();
+        }
 
         assertNotNull(fetchedCar1);
+        assertNull(errorMessage1);
         assertNull(fetchedCar2);
-        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+        assertEquals("Unrecognized parking ticket.",  errorMessage2);
     }
 
     @Test
@@ -91,12 +110,25 @@ public class StandardParkingBoyTest {
         ParkingLot parkingLot = new ParkingLot(1);
         StandardParkingBoy boy = new StandardParkingBoy(parkingLot);
 
-        Ticket ticket1 = boy.park(car1);
-        Ticket ticket2 = boy.park(car2);
+        Ticket ticket1 = null;
+        String errorMessage1 = null;
+        try {
+            ticket1 = boy.park(car1);
+        } catch (Exception e) {
+            errorMessage1 = e.getMessage();
+        }
+        Ticket ticket2 = null;
+        String errorMessage2 = null;
+        try {
+            ticket2 = boy.park(car2);
+        } catch (Exception e) {
+            errorMessage2 = e.getMessage();
+        }
 
         assertNotNull(ticket1);
+        assertNull(errorMessage1);
         assertNull(ticket2);
-        assertTrue(outputStream.toString().contains("No available position."));
+        assertEquals("No available position.", errorMessage2);
     }
 
     @Test
@@ -155,10 +187,16 @@ public class StandardParkingBoyTest {
         Ticket wrongTicket = new Ticket(1, car2, lot2);
 
         boy.park(car);
-        Car fetchedCar = boy.fetch(wrongTicket);
+        Car fetchedCar = null;
+        String errorMessage = null;
+        try {
+            fetchedCar = boy.fetch(wrongTicket);
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
 
         assertNull(fetchedCar);
-        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+        assertEquals("Unrecognized parking ticket.", errorMessage);
     }
 
     @Test
@@ -169,12 +207,25 @@ public class StandardParkingBoyTest {
         StandardParkingBoy boy = new StandardParkingBoy(Arrays.asList(lot1, lot2));
 
         Ticket ticket = boy.park(car);
-        Car fetchedCar1 = boy.fetch(ticket);
-        Car fetchedCar2 = boy.fetch(ticket);
+        Car fetchedCar1 = null;
+        String errorMessage1 = null;
+        try {
+            fetchedCar1 = boy.fetch(ticket);
+        } catch (Exception e) {
+            errorMessage1 = e.getMessage();
+        }
+        Car fetchedCar2 = null;
+        String errorMessage2 = null;
+        try {
+            fetchedCar2 = boy.fetch(ticket);
+        } catch (Exception e) {
+            errorMessage2 = e.getMessage();
+        }
 
         assertNotNull(fetchedCar1);
+        assertNull(errorMessage1);
         assertNull(fetchedCar2);
-        assertTrue(outputStream.toString().contains("Unrecognized parking ticket."));
+        assertEquals("Unrecognized parking ticket.", errorMessage2);
     }
 
     @Test
@@ -188,9 +239,15 @@ public class StandardParkingBoyTest {
 
         boy.park(car1);
         boy.park(car2);
-        Ticket ticket3 = boy.park(car3);
+        Ticket ticket3 = null;
+        String errorMessage3 = null;
+        try {
+            ticket3 = boy.park(car3);
+        } catch (Exception e) {
+            errorMessage3 = e.getMessage();
+        }
 
         assertNull(ticket3);
-        assertTrue(outputStream.toString().contains("No available position."));
+        assertEquals("No available position.", errorMessage3);
     }
 }
